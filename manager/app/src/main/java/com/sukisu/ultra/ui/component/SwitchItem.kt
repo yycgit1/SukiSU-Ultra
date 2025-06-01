@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.sukisu.ultra.ui.theme.CardConfig.cardAlpha
 
 @Composable
 fun SwitchItem(
@@ -57,7 +58,7 @@ fun SwitchItem(
 
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(
-            surface = MaterialTheme.colorScheme.surfaceContainerHigh
+            surface = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = cardAlpha)
         )
     ) {
         ListItem(
