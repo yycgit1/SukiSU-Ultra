@@ -83,6 +83,7 @@ import com.sukisu.ultra.ui.component.profile.AppProfileConfig
 import com.sukisu.ultra.ui.component.profile.RootProfileConfig
 import com.sukisu.ultra.ui.component.profile.TemplateConfig
 import com.sukisu.ultra.ui.theme.CardConfig
+import com.sukisu.ultra.ui.theme.CardConfig.cardAlpha
 import com.sukisu.ultra.ui.theme.getCardColors
 import com.sukisu.ultra.ui.theme.getCardElevation
 import com.sukisu.ultra.ui.util.LocalSnackbarHost
@@ -213,7 +214,7 @@ private fun AppProfileInner(
 
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(
-            surface = MaterialTheme.colorScheme.surfaceContainerHigh
+            surface = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = cardAlpha)
         )
     ) {
         Column(modifier = modifier) {
@@ -597,7 +598,7 @@ private fun AppProfilePreview() {
     var profile by remember { mutableStateOf(Natives.Profile("")) }
     MaterialTheme(
         colorScheme = MaterialTheme.colorScheme.copy(
-            surface = MaterialTheme.colorScheme.surfaceContainerHigh
+            surface = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = cardAlpha)
         )
     ) {
         Surface {

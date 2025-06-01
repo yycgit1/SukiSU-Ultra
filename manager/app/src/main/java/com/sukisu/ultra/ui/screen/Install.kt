@@ -492,7 +492,7 @@ private fun SelectInstallMethod(
             ) {
                 MaterialTheme(
                     colorScheme = MaterialTheme.colorScheme.copy(
-                        surface = MaterialTheme.colorScheme.surfaceVariant
+                        surface = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = cardAlpha)
                     )
                 ) {
                     ListItem(
@@ -604,7 +604,7 @@ private fun SelectInstallMethod(
             ) {
                 MaterialTheme(
                     colorScheme = MaterialTheme.colorScheme.copy(
-                        surface = MaterialTheme.colorScheme.surfaceVariant
+                        surface = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = cardAlpha)
                     )
                 ) {
                     ListItem(
@@ -715,7 +715,7 @@ fun rememberSelectKmiDialog(onSelected: (String?) -> Unit): DialogHandle {
         }
 
         var selection by remember { mutableStateOf<String?>(null) }
-        val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
+        val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = cardAlpha)
 
         MaterialTheme(
             colorScheme = MaterialTheme.colorScheme.copy(
