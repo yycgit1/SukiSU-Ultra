@@ -197,6 +197,8 @@
     <string name="hide_susfs_status_summary">Hide SuSFS status information on the home page</string>
     <string name="hide_link_card">Hide Link Card Status</string>
     <string name="hide_link_card_summary">Hide link card information on the home page</string>
+    <string name="use_android_icon">Use Android icon</string>
+    <string name="use_android_icon_summary">Toggle between the current icon and the Android default icon</string>
     <string name="theme_mode">Theme</string>
     <string name="theme_follow_system">Follow system</string>
     <string name="theme_light">Light</string>

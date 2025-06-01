@@ -195,6 +195,8 @@
     <string name="hide_susfs_status_summary">隐藏主页上的 SuSFS 状态信息</string>
     <string name="hide_link_card">隐藏链接卡片</string>
     <string name="hide_link_card_summary">隐藏主页上的链接卡片信息</string>
+    <string name="use_android_icon">使用原生图标</string>
+    <string name="use_android_icon_summary">在现有图标和安卓原生图标之间切换</string>
     <string name="theme_mode">主题模式</string>
     <string name="theme_follow_system">跟随系统</string>
     <string name="theme_light">浅色</string>

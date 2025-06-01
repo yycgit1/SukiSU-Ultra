@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
@@ -315,6 +317,26 @@ fun MoreSettingsScreen(navigator: DestinationsNavigator) {
         isHideLinkCard = newValue
     }
 
+    // 使用原生图标开关状态
+    var useAndroidIcon by remember {
+        mutableStateOf(prefs.getBoolean("use_android_icon", false))
+    }
+
+    val onUseAndroidIconChange = { newValue: Boolean ->
+        prefs.edit { putBoolean("use_android_icon", newValue) }
+        useAndroidIcon = newValue
+        val pm = context.packageManager
+        val custom = ComponentName(context, "${context.packageName}.MainActivityAlias")
+        val androidIcon = ComponentName(context, "${context.packageName}.MainActivityAndroidAlias")
+        if (newValue) {
+            pm.setComponentEnabledSetting(androidIcon, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+            pm.setComponentEnabledSetting(custom, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        } else {
+            pm.setComponentEnabledSetting(androidIcon, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+            pm.setComponentEnabledSetting(custom, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        }
+    }
+
     // SELinux状态
     var selinuxEnabled by remember {
         mutableStateOf(Shell.cmd("getenforce").exec().out.firstOrNull() == "Enforcing")
@@ -400,6 +422,18 @@ fun MoreSettingsScreen(navigator: DestinationsNavigator) {
         tempDpi = currentDpi
 
         CardConfig.save(context)
+
+        // 应用启动图标状态
+        val pm = context.packageManager
+        val custom = ComponentName(context, "${context.packageName}.MainActivityAlias")
+        val androidIcon = ComponentName(context, "${context.packageName}.MainActivityAndroidAlias")
+        if (useAndroidIcon) {
+            pm.setComponentEnabledSetting(androidIcon, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+            pm.setComponentEnabledSetting(custom, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        } else {
+            pm.setComponentEnabledSetting(androidIcon, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+            pm.setComponentEnabledSetting(custom, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+        }
     }
 
     // 应用 DPI 设置
@@ -923,6 +957,16 @@ fun MoreSettingsScreen(navigator: DestinationsNavigator) {
                             checked = isHideLinkCard
                         ) {
                             onHideLinkCardChange(it)
+                        }
+
+                        // 切换启动图标
+                        SwitchItem(
+                            icon = Icons.Filled.Android,
+                            title = stringResource(R.string.use_android_icon),
+                            summary = stringResource(R.string.use_android_icon_summary),
+                            checked = useAndroidIcon
+                        ) {
+                            onUseAndroidIconChange(it)
                         }
                     }
                 }
