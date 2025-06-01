@@ -884,6 +884,16 @@ fun MoreSettingsScreen() {
                 title = stringResource(R.string.custom_settings),
                 icon = Icons.Default.Settings
             ) {
+                // Launcher icon switch
+                SwitchItem(
+                    icon = Icons.Default.Android,
+                    title = stringResource(R.string.icon_switch_title),
+                    summary = stringResource(R.string.icon_switch_summary),
+                    checked = useAltIcon
+                ) {
+                    onUseAltIconChange(it)
+                }
+
                 // 添加简洁模式开关
                 SwitchItem(
                     icon = Icons.Filled.Brush,
