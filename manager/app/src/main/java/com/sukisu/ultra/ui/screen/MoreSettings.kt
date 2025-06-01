@@ -869,22 +869,12 @@ fun MoreSettingsScreen() {
                 }
             }
 
-            // Launcher icon switch
-            SwitchItem(
-                icon = Icons.Default.Android,
-                title = stringResource(R.string.icon_switch_title),
-                summary = stringResource(R.string.icon_switch_summary),
-                checked = useAltIcon
-            ) {
-                onUseAltIconChange(it)
-            }
-
             // 自定义设置部分
             SettingsCard(
                 title = stringResource(R.string.custom_settings),
                 icon = Icons.Default.Settings
             ) {
-                // Launcher icon switch
+                // 图标切换by lshwjgpt
                 SwitchItem(
                     icon = Icons.Default.Android,
                     title = stringResource(R.string.icon_switch_title),
