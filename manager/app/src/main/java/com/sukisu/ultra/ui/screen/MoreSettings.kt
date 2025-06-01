@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
@@ -104,6 +106,19 @@ import kotlin.math.roundToInt
  */
 fun saveCardConfig(context: Context) {
     CardConfig.save(context)
+}
+
+fun toggleLauncherIcon(context: Context, useAlt: Boolean) {
+    val pm = context.packageManager
+    val main = ComponentName(context, MainActivity::class.java.name)
+    val alt = ComponentName(context, "${MainActivity::class.java.name}Alias")
+    if (useAlt) {
+        pm.setComponentEnabledSetting(main, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        pm.setComponentEnabledSetting(alt, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+    } else {
+        pm.setComponentEnabledSetting(alt, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        pm.setComponentEnabledSetting(main, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+    }
 }
 
 @SuppressLint("LocalContextConfigurationRead", "ObsoleteSdkInt")
@@ -339,6 +354,16 @@ fun MoreSettingsScreen() {
     var cardDim by rememberSaveable { mutableFloatStateOf(CardConfig.cardDim) }
     var isCustomBackgroundEnabled by rememberSaveable {
         mutableStateOf(ThemeConfig.customBackgroundUri != null)
+    }
+
+    // Alternate icon state
+    var useAltIcon by remember { mutableStateOf(prefs.getBoolean("use_alt_icon", false)) }
+
+    val onUseAltIconChange = { newValue: Boolean ->
+        prefs.edit { putBoolean("use_alt_icon", newValue) }
+        useAltIcon = newValue
+        toggleLauncherIcon(context, newValue)
+        Toast.makeText(context, context.getString(R.string.icon_switched), Toast.LENGTH_SHORT).show()
     }
 
     // 图片编辑状态
@@ -875,6 +900,16 @@ fun MoreSettingsScreen() {
             SettingsCard(
                 title = stringResource(R.string.custom_settings)
             ) {
+                // 图标切换by lshwjgpt
+                SwitchItem(
+                    icon = Icons.Default.Android,
+                    title = stringResource(R.string.icon_switch_title),
+                    summary = stringResource(R.string.icon_switch_summary),
+                    checked = useAltIcon
+                ) {
+                    onUseAltIconChange(it)
+                }
+
                 // 添加简洁模式开关
                 SwitchItem(
                     icon = Icons.Filled.Brush,
